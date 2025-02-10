@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://clcmj5a3s6qmb"]
+
+[ext_resource type="Texture2D" uid="uid://t5qvg03twhi0" path="res://sprites/Asteroide1.png" id="1_bycrx"]
+[ext_resource type="Script" path="res://scripts/asteroid.gd" id="1_n108y"]
+[ext_resource type="AudioStream" uid="uid://dm1lanvu48oo" path="res://sounds/Colisao Asteroid.wav" id="3_14tsi"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5kqjn"]
+radius = 43.0116
+
+[node name="Asteroid" type="Area2D" groups=["asteroids"]]
+position = Vector2(-119, 97)
+collision_layer = 8
+collision_mask = 2
+script = ExtResource("1_n108y")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_bycrx")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_5kqjn")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[node name="TimerDelete" type="Timer" parent="."]
+
+[node name="AudioCollisionBall" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_14tsi")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
+[connection signal="timeout" from="TimerDelete" to="." method="_on_timer_delete_timeout"]
+[connection signal="finished" from="AudioCollisionBall" to="." method="_on_audio_collision_ball_finished"]
